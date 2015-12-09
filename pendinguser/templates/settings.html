@@ -1,0 +1,50 @@
+{% import "_includes/forms" as forms %}
+
+{% set title = "Pending User Settings" | t %}
+
+<h2>Settings</h2>
+
+{{ forms.textareaField({
+  label: 'Allowed Domains',
+  instructions: 'Enter the email domains (on separate lines) which you want users to be automatically approved.',
+  name: 'allowedDomains',
+  value: settings.allowedDomains,
+  rows: 10,
+  placeholder: 'Example: gmail.com'
+}) }}
+
+<h3>Sign Up Email</h3>
+
+<p>This is the email that is sent to a user when they sign up.</p>
+
+{{ forms.textField({
+  label: 'Subject',
+  name: 'signupEmailSubject',
+  value: settings.signupEmailSubject
+}) }}
+
+{{ forms.textareaField({
+  label: 'Body',
+  instructions: 'You have access to a Twig {{ user }} variable, which is a <a href="http://buildwithcraft.com/docs/templating/usermodel">UserModel</a>.',
+  name: 'signupEmailBody',
+  value: settings.signupEmailBody,
+  rows: 10
+}) }}
+
+<h3>Activation Email</h3>
+
+<p>This is the email that is sent to a user when they are activated.</p>
+
+{{ forms.textField({
+  label: 'Subject',
+  name: 'activationEmailSubject',
+  value: settings.activationEmailSubject
+}) }}
+
+{{ forms.textareaField({
+  label: 'Body',
+  instructions: 'You have access to a Twig {{ user }} variable, which is a <a href="http://buildwithcraft.com/docs/templating/usermodel">UserModel</a>.',
+  name: 'activationEmailBody',
+  value: settings.activationEmailBody,
+  rows: 10
+}) }}
