@@ -50,3 +50,7 @@ This is the email that is sent to a user when they are activated.
 You have access to a Twig `{{ user }}` variable, which is a <a href="http://buildwithcraft.com/docs/templating/usermodel">UserModel</a>.
 
 *Default:* Your account has been activated.
+
+<hr>
+
+**Visit [code.viget.com](http://code.viget.com/) to see more projects from [Viget](http://viget.com).**
