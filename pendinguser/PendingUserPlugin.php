@@ -45,7 +45,11 @@ class PendingUserPlugin extends BasePlugin
             'signupEmailSubject' => array(AttributeType::Mixed, 'default' => 'User Request Received'),
             'signupEmailBody' => array(AttributeType::Mixed, 'default' => 'We received your request for a members account and we are currently reviewing it.  You will receive a verification email once the account has been approved.'),
             'activationEmailSubject' => array(AttributeType::Mixed, 'default' => 'Account Activated'),
-            'activationEmailBody' => array(AttributeType::Mixed, 'default' => 'Your account has been activated.')
+            'activationEmailBody' => array(AttributeType::Mixed, 'default' => 'Your account has been activated.'),
+            'notifyModerator' => array(AttributeType::Bool, 'default' => false),
+            'moderatorEmailAddress' => array(AttributeType::Email, 'default' => craft()->systemSettings->getSetting('email', 'emailAddress')),
+            'moderatorEmailSubject' => array(AttributeType::Mixed, 'default' => 'A new user has signed up'),
+            'moderatorEmailBody' => array(AttributeType::Mixed, 'default' => "A new user has signed up.\nClick here to review: {{ user.cpEditUrl }}"),
         );
     }
 
@@ -65,15 +69,24 @@ class PendingUserPlugin extends BasePlugin
     {
         craft()->on('users.onBeforeSaveUser', function(Event $event) {
             $settings = $this->getSettings();
-            $allowedDomains = array_filter(explode("\r\n", $settings->allowedDomains));
             $user = $event->params['user'];
             $isNewUser = $event->params['isNewUser'];
-            $emailDomain = strtolower(substr(strrchr($user->email, '@'), 1));
 
-            if ($isNewUser && !in_array($emailDomain, $allowedDomains))
+            if ($isNewUser && !$this->isAllowedDomain($user->email))
             {
                 $user->pending = true;
                 craft()->pendingUser_email->signup($user);
+            }
+        });
+
+        craft()->on('users.onSaveUser', function(Event $event) {
+            $settings = $this->getSettings();
+            $user = $event->params['user'];
+            $isNewUser = $event->params['isNewUser'];
+
+            if ($settings['notifyModerator'] && $isNewUser && !$this->isAllowedDomain($user->email))
+            {
+                craft()->pendingUser_email->notifyModerator($user);
             }
         });
 
@@ -81,5 +94,13 @@ class PendingUserPlugin extends BasePlugin
             $user = $event->params['user'];
             craft()->pendingUser_email->activate($user);
         });
+    }
+
+    private function isAllowedDomain($domain)
+    {
+        $settings = $this->getSettings();
+        $allowedDomains = array_filter(explode("\r\n", $settings->allowedDomains));
+        $emailDomain = strtolower(substr(strrchr($domain, '@'), 1));
+        return in_array($emailDomain, $allowedDomains);
     }
 }
