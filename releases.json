@@ -1,4 +1,10 @@
 [
+	{
+        "version": "1.0.1",
+        "downloadUrl": "https://github.com/vigetlabs/craft-pendinguser/archive/v1.0.1.zip",
+        "date": "2016-09-07T09:15:00-00:00",
+        "notes": "Add optional moderator email notification"
+    },
     {
         "version": "1.0.0",
         "downloadUrl": "https://github.com/vigetlabs/craft-pendinguser/archive/v1.0.0.zip",
