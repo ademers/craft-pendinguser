@@ -21,9 +21,21 @@ class PendingUser_EmailService extends BaseApplicationComponent
 
     public function signup(UserModel $user)
     {
+        // Send email to user
         $this->email->toEmail = $user->email;
         $this->email->subject = $this->pluginSettings['signupEmailSubject'];
         $this->email->body = craft()->templates->renderString($this->pluginSettings['signupEmailBody'], array(
+            'user' => $user,
+        ));
+
+        craft()->email->sendEmail($this->email);
+    }
+
+    public function notifyModerator(UserModel $user)
+    {
+        $this->email->toEmail = $this->pluginSettings['moderatorEmailAddress'];
+        $this->email->subject = $this->pluginSettings['moderatorEmailSubject'];
+        $this->email->body = craft()->templates->renderString($this->pluginSettings['moderatorEmailBody'], array(
             'user' => $user,
         ));
 
