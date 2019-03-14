@@ -2,6 +2,10 @@
 
 Craft plugin for simple user moderation. This plugin does the following:
 
+## Update
+
+The original developer of this plugin recently transferred this repository to me. I plan to port the plugin to Craft 3 and make it available in the Craft CMS Plugin Store for free.
+
 ## When a user signs up:
 
 1. The user is set in a pending state if their email address isn't one of the approved domains.
