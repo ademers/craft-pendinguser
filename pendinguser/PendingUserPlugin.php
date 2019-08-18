@@ -94,6 +94,14 @@ class PendingUserPlugin extends BasePlugin
             $user = $event->params['user'];
             craft()->pendingUser_email->activate($user);
         });
+
+        craft()->on('users.onBeforeActivateUser', function (Event $event) {
+            // stop the user from being able to activate their account. Forces admins or users with sufficient privileges to do so.
+            $loggedInUser = craft()->userSession->getUser();
+            if (!$loggedInUser || (!craft()->userSession->isAdmin() && !craft()->userPermissions->doesUserHavePermission($loggedInUser->id, 'registerUsers'))) {
+                $event->performAction = false;
+            }
+        });
     }
 
     private function isAllowedDomain($domain)
