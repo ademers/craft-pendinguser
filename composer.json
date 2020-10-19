@@ -1,0 +1,46 @@
+{
+    "name": "ademers/craft-pendinguser",
+    "description": "A Craft Plugin that sets all new user accounts created via a front-end registration form to pending status.",
+    "type": "craft-plugin",
+    "version": "2.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "pendinguser",
+        "pending user",
+        "user moderation"
+    ],
+    "support": {
+        "docs": "https://github.com/ademers/craft-pendinguser/blob/master/README.md",
+        "issues": "https://github.com/ademers/craft-pendinguser/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrea DeMers",
+            "homepage": "https://andreademers.com"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+          "ademers\\pendinguser\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Pending User",
+        "handle": "pending-user",
+        "developer": "Andrea DeMers",
+        "developerUrl": "https://andreademers.com",
+        "documentationUrl": "https://github.com/ademers/craft-pendinguser/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/ademers/craft-pendinguser/master/CHANGELOG.md",
+        "components": {
+            "email": "ademers\\pendinguser\\services\\Email"
+        },
+        "class": "ademers\\pendinguser\\PendingUser"
+    }
+}

@@ -1,0 +1,65 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Pending User plugin for Craft CMS 3.x
+ *
+ * Pending User Settings.twig
+ *
+ * @author    Andrea DeMers
+ * @copyright Copyright (c) 2020 Andrea DeMers
+ * @link      https://andreademers.com
+ * @package   PendingUser
+ * @since     2.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("ademers\\pendinguser\\assetbundles\\pendinguser\\PendingUserAsset") %}
+
+<h2>Allowed Domains</h2>
+
+{{ forms.textareaField({
+    first: true,
+    label: 'Allowed Domains',
+    instructions: 'Enter the email domains (on separate lines) which you want users to be automatically approved.',
+    name: 'allowedDomains',
+    placeholder:
+'example.com
+foo.com',
+    rows: 10,
+    value: settings.allowedDomains,
+    autofocus: true,
+    errors: settings.getErrors('allowedDomains')
+}) }}
+
+<h2>User Registration Email</h2>
+
+<p>Email sent to user when they register via a front-end registration form and create a new user account.</p>
+
+<p>To customize the email subject and body, go to <b>Pending User plugin: when a new user registers</b> in <b>Utilities > <a href="{{ siteUrl }}admin/utilities/system-messages">System Messages</a></b>.</p>
+
+<h2>User Activation Email</h2>
+
+<p>Email sent to user when their user account is activated.</p>
+
+<p>To customize the email subject and body, go to <b>Pending User plugin: when a user account is activated</b> in <b>Utilities > <a href="{{ siteUrl }}admin/utilities/system-messages">System Messages</a></b>.</p>
+
+<h2>Moderator Notification Email</h2>
+
+<p>To customize the email subject and body, go to <b>Pending User plugin: when the Moderator Email Notification setting is enabled</b> in <b>Utilities > <a href="{{ siteUrl }}admin/utilities/system-messages">System Messages</a></b>.</p>
+
+{{ forms.lightswitchField({
+    label: 'Moderator Email Notification',
+    instructions: 'If you enable this setting, the moderator will get an email when a new user registers via a front-end registration form and creates a new user account..',
+    name: 'notifyModerator',
+    on: settings.notifyModerator
+}) }}
+
+{{ forms.textField({
+    label: 'Moderator Email Address',
+    name: 'moderatorEmailAddress',
+    instructions: 'Required when Moderator Email Notification is enabled. Defaults to the Craft System Email Address.',
+    value: settings.moderatorEmailAddress,
+    errors: settings.getErrors('moderatorEmailAddress')
+}) }}
