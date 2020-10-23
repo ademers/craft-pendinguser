@@ -206,17 +206,17 @@ class PendingUser extends Plugin
                 ];
 
                 $event->messages[] = [
-                    'key' => 'user_activated',
-                    'heading' => Craft::t('pending-user', 'user_activated_heading'),
-                    'subject' => Craft::t('pending-user', 'user_activated_subject'),
-                    'body' => Craft::t('pending-user', 'user_activated_body')
-                ];
-
-                $event->messages[] = [
                     'key' => 'moderator_notification',
                     'heading' => Craft::t('pending-user', 'moderator_notification_heading'),
                     'subject' => Craft::t('pending-user', 'moderator_notification_subject'),
                     'body' => Craft::t('pending-user', 'moderator_notification_body')
+                ];
+
+                $event->messages[] = [
+                    'key' => 'user_activated',
+                    'heading' => Craft::t('pending-user', 'user_activated_heading'),
+                    'subject' => Craft::t('pending-user', 'user_activated_subject'),
+                    'body' => Craft::t('pending-user', 'user_activated_body')
                 ];
             }
         );
