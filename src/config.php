@@ -2,7 +2,7 @@
 /**
  * Pending User plugin for Craft CMS 3.x
  *
- * A Craft Plugin that sets all new user accounts created via a front-end registration form to pending status.
+ * Sets new user accounts created via User Registration forms to pending status.
  *
  * @link      https://andreademers.com
  * @copyright Copyright (c) 2020 Andrea DeMers
