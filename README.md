@@ -1,10 +1,12 @@
 # Pending User plugin for Craft CMS 3.5.x
 
-A Craft Plugin that enables user account moderation by setting all new user accounts created via a front-end [User Registration form](https://craftcms.com/docs/3.x/dev/examples/user-registration-form.html) to *Pending* status.
+A Craft Plugin that enables user account moderation by setting new user accounts created via a [User Registration form](https://craftcms.com/docs/3.x/dev/examples/user-registration-form.html) to **Pending** status.
 
 This plugin is a port of the Craft 2 *Pending User* plugin originally created by [Trevor Davis](https://github.com/davist11).
 
-<!-- ![Screenshot](resources/img/plugin-logo.png) -->
+![Screenshot of plugin settings](resources/img/craft-pending-user-plugins.png)
+
+![Screenshot of plugin settings](resources/img/craft-pending-user-settings.png)
 
 ## Requirements
 
@@ -99,14 +101,15 @@ The moderator's email address.
 You have access to a Twig `{{ user }}` variable, which is a User Element. Use `{{ user.cpEditUrl }}` to insert a link to the User edit screen in the Craft Control Panel.
 
 *Default*:
-```Twig
+```twig
 Hi Moderator,
+
 Please visit {{user.cpEditUrl}} to review and activate the {{user.username}} user account.
 ```
 
 #### Activation Email
 
-This is the email that is sent to users when their user account is activated (i.e. a moderator changes user account status from *Pending* to *Active*).
+This is the email that is sent to users when their user account is activated (i.e. a moderator changes the user account status from **Pending** to **Active**).
 
 ##### Subject
 
@@ -117,12 +120,9 @@ This is the email that is sent to users when their user account is activated (i.
 *Default*:
 
 ```twig
-Hi {{ user.username }},
+Hi {{user.friendlyName}},
 
-Your user account has been activated.
-
-Best Regards,
-Acme Inc.
+Your {{systemName}} user account {{user.username}} has been activated.
 ```
 
 ## Using Pending User
