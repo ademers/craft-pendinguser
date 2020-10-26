@@ -1,6 +1,6 @@
 {
     "name": "ademers/craft-pendinguser",
-    "description": "A Craft Plugin that sets all new user accounts created via a front-end registration form to pending status.",
+    "description": "Sets new user accounts created via User Registration forms to pending status.",
     "type": "craft-plugin",
     "version": "2.0.0",
     "keywords": [
