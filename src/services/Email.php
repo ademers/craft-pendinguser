@@ -47,7 +47,7 @@ class Email extends Component
      * @return mixed
      */
 
-    // TODO: Make more DRY
+    // TODO: Can make more DRY?
     public function sendAccountCreationEmail(User $user) {
         Craft::$app->getMailer()
             ->composeFromKey('user_registered', ['user' => $user])

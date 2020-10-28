@@ -10,31 +10,22 @@
 
 namespace ademers\pendinguser;
 
-use ademers\pendinguser\services\Email as EmailService;
-use ademers\pendinguser\models\Settings;
-
 use Craft;
 use craft\base\Plugin;
+use craft\elements\User;
 use craft\events\ModelEvent;
-use craft\services\Plugins;
 use craft\events\PluginEvent;
+use craft\events\RegisterEmailMessagesEvent;
 use craft\events\UserEvent;
+use craft\services\Plugins;
 use craft\services\SystemMessages;
 use craft\services\Users;
-use craft\elements\User;
-use craft\events\RegisterEmailMessagesEvent;
-
+use ademers\pendinguser\models\Settings;
+use ademers\pendinguser\services\Email as EmailService;
 use yii\base\Event;
 
 /**
- * Craft plugins are very much like little applications in and of themselves. We’ve made
- * it as simple as we can, but the training wheels are off. A little prior knowledge is
- * going to be required to write a plugin.
- *
- * For the purposes of the plugin docs, we’re going to assume that you know PHP and SQL,
- * as well as some semi-advanced concepts like object-oriented programming and PHP namespaces.
- *
- * https://docs.craftcms.com/v3/extend/
+ * PendingUser Class
  *
  * @author    Andrea DeMers
  * @package   PendingUser
@@ -50,9 +41,6 @@ class PendingUser extends Plugin
     // =========================================================================
 
     /**
-     * Static property that is an instance of this plugin class so that it can be accessed via
-     * PendingUser::$plugin
-     *
      * @var PendingUser
      */
     public static $plugin;
@@ -60,6 +48,7 @@ class PendingUser extends Plugin
     // Public Properties
     // =========================================================================
 
+    // TODO: Don't think I need this since no DB stuff
     /**
      * To execute your plugin’s migrations, you’ll need to increase its schema version.
      *
@@ -68,15 +57,11 @@ class PendingUser extends Plugin
     public $schemaVersion = '2.0.0';
 
     /**
-     * Set to `true` if the plugin should have a settings view in the control panel.
-     *
      * @var bool
      */
     public $hasCpSettings = true;
 
     /**
-     * Set to `true` if the plugin should have its own section (main nav item) in the control panel.
-     *
      * @var bool
      */
     public $hasCpSection = false;
@@ -98,8 +83,10 @@ class PendingUser extends Plugin
     public function init()
     {
         parent::init();
+        // TODO: Do I need this?
         self::$plugin = $this;
 
+        // TODO: Do I need this?
         // Do something after we're installed
         Event::on(
             Plugins::class,
@@ -119,15 +106,15 @@ class PendingUser extends Plugin
                 /** @var User $user */
                 $user = $event->user;
 
-                // Ensure that new user account was created on front-end via registration form
+                // Ensure that new user account was created on front-end via User Registration form
                 if (!Craft::$app->request->getIsSiteRequest()) {
                     return;
                 }
 
                 if (!$this->isAllowedDomains($user->email)) {
-                    // Set user to Pending status
+                    // Set user account to Pending status
                     $event->isValid = false;
-                    // Send email to user that account created
+                    // Send email to user that account was created
                     $this->email->sendAccountCreationEmail($user);
                 } else {
                     // Send email to new user that account activated
