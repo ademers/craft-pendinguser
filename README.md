@@ -10,9 +10,8 @@ This plugin is a port of the Craft 2 *Pending User* plugin originally created by
 
 ## Requirements
 
-This plugin requires [Craft CMS Pro](https://craftcms.com/pricing) 3.5.x or later.
-
-Access to a Craft [Admin](https://craftcms.com/docs/3.x/user-management.html#admin-accounts) user account, or a non-Admin account with the [**Administrate users**](https://craftcms.com/docs/3.x/user-management.html#permissions) permission enabled.
+- [Craft CMS Pro](https://craftcms.com/pricing) 3.5.x or later.
+- A Craft [Admin](https://craftcms.com/docs/3.x/user-management.html#admin-accounts) user account, or a non-admin account with the [**Administrate users**](https://craftcms.com/docs/3.x/user-management.html#permissions) permission enabled.
 
 ## Installation
 
@@ -30,10 +29,15 @@ To install the plugin, follow these instructions.
 
 ## Pending User Overview
 
-1. When a user creates a new account by registering via a front-end [User Registration form](https://craftcms.com/docs/3.x/dev/examples/user-registration-form.html) and their email isn't listed in the **Allowed Domains** setting field, the user account is set to **Pending** status.
+1. When a user creates a new user account by registering via a [User Registration form](https://craftcms.com/docs/3.x/dev/examples/user-registration-form.html) and their email isn't listed in the **Allowed Domains** setting field, the plugin sets the account to **Pending** status.
 2. The user receives an email stating that their new account has been created.
 3. Optionally, a moderator receives an email stating that a new user account has been created.
-4. Once the account has been approved and activated by a moderator, the user receives an email stating that their account has been approved and activated.
+4. Once the user account has been approved and activated by a moderator, the user receives an email stating that their account has been activated.
+
+## Changes & Additions in the Craft 3.5.x Version
+
+- Allowed Domains must now be entered separated by commas instead of on new lines.
+- Support for multiple moderator email addresses, separated by commas.
 
 ## Configuring Pending User
 
@@ -52,7 +56,7 @@ To install the plugin, follow these instructions.
 In the Craft Control Panel, go to **Settings** -> **Plugins** -> **Pending User**.
 
 #### Allowed Domains
-If you want users with emails containing specific domain names to be automatically approved, enter those domain names with each one on a separate line. Optional.
+If you want to automatically activate user accounts with emails containing certain domain names, enter them in this field separated by commas. Optional.
 
 #### Registration Email
 
@@ -78,17 +82,17 @@ You'll receive another email once we've reviewed and activated your account.
 
 #### Moderator Notification Email
 
-This is the email that is sent to the moderator when a user registers via a front-end registration form thereby creating a new user account.
+This is the email that is sent to the moderator when a user registers via a User Registration form, thereby creating a new user account.
 
 ##### Moderator Email Notification
 
-If enabled, the moderator will receive an email notification when a new user registers.
+If enabled, a moderator will receive an email notification when a new user registers. Supports multiple email addresses separated by commas.
 
 *Default*: off
 
-##### Moderator Email Address
+##### Moderator Email Addresses
 
-The moderator's email address.
+Moderator email addresses.
 
 *Default*: The site administrator's email address.
 
