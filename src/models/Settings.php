@@ -10,9 +10,6 @@
 
 namespace ademers\pendinguser\models;
 
-use ademers\pendinguser\PendingUser;
-
-use Craft;
 use craft\base\Model;
 
 /**
@@ -35,25 +32,19 @@ class Settings extends Model
     // =========================================================================
 
     /**
-     * Some field model attribute
-     *
-     * @var string
-     */
-
-    /**
-     * @var string Allowed domains
+     * @var string|string[]|null
      */
     public $allowedDomains;
 
     /**
-     * @var bool Notify moderator?
+     * @var bool
      */
     public $notifyModerator = false;
 
     /**
-     * @var string Moderator email address
+     * @var string|null
      */
-    public $moderatorEmailAddress;
+    public $moderatorEmailAddresses;
 
     // Public Methods
     // =========================================================================
@@ -71,13 +62,11 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['allowedDomains', 'string'],
+            [['allowedDomains', 'moderatorEmailAddresses'], 'string'],
 
-            ['moderatorEmailAddress', 'email'],
+            ['moderatorEmailAddresses', 'default', 'value' => \craft\helpers\App::mailSettings()->fromEmail],
 
-            ['moderatorEmailAddress', 'default', 'value' => \craft\helpers\App::mailSettings()->fromEmail],
-
-            ['moderatorEmailAddress', 'required', 'when' => function($settings) {
+            ['moderatorEmailAddresses', 'required', 'when' => function($settings) {
                 return $settings->notifyModerator == true;
             }],
         ];
