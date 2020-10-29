@@ -19,15 +19,12 @@
 
 <h2>Allowed Domains</h2>
 
-{{ forms.textareaField({
+{{ forms.textField({
     first: true,
     label: 'Allowed Domains',
-    instructions: 'Enter the email domains (on separate lines) which you want users to be automatically approved.',
+    instructions: 'To automatically activate user accounts with emails containing certain domain names, enter them below separated by commas. Optional.',
     name: 'allowedDomains',
-    placeholder:
-'example.com
-foo.com',
-    rows: 10,
+    placeholder:'example.com, foo.com',
     value: settings.allowedDomains,
     autofocus: true,
     errors: settings.getErrors('allowedDomains')
@@ -35,7 +32,7 @@ foo.com',
 
 <h2>User Registration Email</h2>
 
-<p>Email sent to user when they register via a front-end registration form and create a new user account.</p>
+<p>Email sent to user when they register via a User Registration form, thereby creating a new user account.</p>
 
 <p>To customize the email subject and body, go to <b>Pending User: when a new user registers</b> in <b>Utilities > <a href="{{ siteUrl }}admin/utilities/system-messages">System Messages</a></b>.</p>
 
@@ -51,15 +48,15 @@ foo.com',
 
 {{ forms.lightswitchField({
     label: 'Moderator Email Notification',
-    instructions: 'If you enable this setting, the moderator will get an email when a new user registers via a front-end registration form and creates a new user account..',
+    instructions: 'If enabled, a moderator will get an email when a user registers via a User Registration form, thereby creating a new user account.',
     name: 'notifyModerator',
     on: settings.notifyModerator
 }) }}
 
 {{ forms.textField({
-    label: 'Moderator Email Address',
-    name: 'moderatorEmailAddress',
-    instructions: 'Required when Moderator Email Notification is enabled. Defaults to the Craft System Email Address.',
-    value: settings.moderatorEmailAddress,
-    errors: settings.getErrors('moderatorEmailAddress')
+    label: 'Moderator Email Addresses',
+    name: 'moderatorEmailAddresses',
+    instructions: 'Required when Moderator Email Notification is enabled. Separate multiple email addresses with commas. Defaults to the Craft System Email Address.',
+    value: settings.moderatorEmailAddresses,
+    errors: settings.getErrors('moderatorEmailAddresses')
 }) }}
