@@ -14,6 +14,7 @@ use ademers\pendinguser\PendingUser;
 
 use Craft;
 use craft\elements\User;
+use craft\helpers\StringHelper;
 use yii\base\Component;
 //use yii\base\Model;
 
@@ -57,11 +58,15 @@ class Email extends Component
 
     public function sendAccountModerationEmail(User $user) {
         $settings = PendingUser::$plugin->getSettings();
+        $moderatorEmailAddresses = $settings->moderatorEmailAddresses;
+        $moderatorEmailAddresses = is_string($moderatorEmailAddresses) ? StringHelper::split($moderatorEmailAddresses) : $moderatorEmailAddresses;
 
-        Craft::$app->getMailer()
-            ->composeFromKey('moderator_notification', ['user' => $user])
-            ->setTo($settings->moderatorEmailAddress)
-            ->send();
+        foreach ($moderatorEmailAddresses as $moderatorEmailAddress) {
+            Craft::$app->getMailer()
+                ->composeFromKey('moderator_notification', ['user' => $user])
+                ->setTo($moderatorEmailAddress)
+                ->send();
+        }
     }
 
     public function sendAccountActivationEmail(User $user) {

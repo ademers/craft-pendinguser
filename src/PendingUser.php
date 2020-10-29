@@ -17,6 +17,7 @@ use craft\events\ModelEvent;
 use craft\events\PluginEvent;
 use craft\events\RegisterEmailMessagesEvent;
 use craft\events\UserEvent;
+use craft\helpers\StringHelper;
 use craft\services\Plugins;
 use craft\services\SystemMessages;
 use craft\services\Users;
@@ -241,7 +242,8 @@ class PendingUser extends Plugin
 
     private function isAllowedDomains($domain)
     {
-        $allowedDomains = array_filter(explode("\r\n", $this->getSettings()->allowedDomains));
+        $allowedDomains = $this->getSettings()->allowedDomains;
+        $allowedDomains = is_string($allowedDomains) ? StringHelper::split($allowedDomains) : $allowedDomains;
         $emailDomain = strtolower(substr(strrchr($domain, '@'), 1));
         return in_array($emailDomain, $allowedDomains);
     }
