@@ -15,6 +15,14 @@
 
 {% import "_includes/forms" as forms %}
 
+{% macro configWarning(setting) -%}
+    {% set setting = '<code>'~setting~'</code>' %}
+    {{ "This is being overridden by the {setting} config setting in your {file} config file."|t('pending-user', {
+        setting: setting,
+        file: 'pending-user.php'
+    })|raw }}
+{%- endmacro %}
+
 {% do view.registerAssetBundle("ademers\\pendinguser\\assetbundles\\pendinguser\\PendingUserAsset") %}
 
 <h2>Allowed Domains</h2>
@@ -27,6 +35,8 @@
     placeholder:'example.com, foo.com',
     value: settings.allowedDomains,
     autofocus: true,
+    disabled: 'allowedDomains' in overrides,
+    warning: 'allowedDomains' in overrides ? _self.configWarning('allowedDomains'),
     errors: settings.getErrors('allowedDomains')
 }) }}
 
@@ -50,7 +60,9 @@
     label: 'Moderator Email Notification',
     instructions: 'If enabled, a moderator will get an email when a user registers via a User Registration form, thereby creating a new user account.',
     name: 'notifyModerator',
-    on: settings.notifyModerator
+    on: settings.notifyModerator,
+    disabled: 'notifyModerator' in overrides,
+    warning: 'notifyModerator' in overrides ? _self.configWarning('notifyModerator')
 }) }}
 
 {{ forms.textField({
@@ -58,5 +70,7 @@
     name: 'moderatorEmailAddresses',
     instructions: 'Required when Moderator Email Notification is enabled. Separate multiple email addresses with commas. Defaults to the Craft System Email Address.',
     value: settings.moderatorEmailAddresses,
+    disabled: 'moderatorEmailAddresses' in overrides,
+    warning: 'moderatorEmailAddresses' in overrides ? _self.configWarning('moderatorEmailAddresses'),
     errors: settings.getErrors('moderatorEmailAddresses')
 }) }}
