@@ -129,6 +129,22 @@ Hi {{user.friendlyName}},
 Your {{systemName}} user account {{user.username}} has been activated.
 ```
 
+## Overriding Plugin Settings
+
+If you create a [config](https://craftcms.com/docs/3.x/config/config-settings.html) file in your `config/` folder called `pending-user.php`, you can override the plugin’s Control Panel settings. Since the config file is [multi-environment](https://craftcms.com/docs/3.x/config/#environmental-configuration) aware, you can have different settings for different environments.
+
+Here’s an example config file with a list of all the values you can override.
+
+```php
+return [
+    '*' => [
+        'allowedDomains' => 'example.com, foo.com',
+        'notifyModerator' => true,
+        'moderatorEmailAddresses' => 'moderator@example.com',
+    ]
+];
+```
+
 ## Using Pending User
 
 See [Pending User Overview](#pendinguser-overview) above.
