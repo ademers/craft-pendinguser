@@ -99,31 +99,7 @@ class PendingUser extends Plugin
             }
         );
 
-        // Set new users created via front-end registration form to pending status
-        Event::on(
-            Users::class,
-            Users::EVENT_BEFORE_ACTIVATE_USER,
-            function (UserEvent $event) {
-                /** @var User $user */
-                $user = $event->user;
-
-                // Ensure that new user account was created on front-end via User Registration form
-                if (!Craft::$app->request->getIsSiteRequest()) {
-                    return;
-                }
-
-                if (!$this->isAllowedDomains($user->email)) {
-                    // Set user account to Pending status
-                    $event->isValid = false;
-                    // Send email to user that account was created
-                    $this->email->sendAccountCreationEmail($user);
-                } else {
-                    // Send email to new user that account activated
-                    $this->email->sendAccountActivationEmail($user);
-                }
-            }
-        );
-
+        // Send email to user that account was created and is pending activation
         // Send email to moderator after new user account is created and saved
         // See: https://craftcms.stackexchange.com/questions/26797/user-events-in-craft-3
         Event::on(
@@ -138,11 +114,6 @@ class PendingUser extends Plugin
                     return;
                 }
 
-                // Ensure that Moderator Email Notification is enabled (plugin settings)
-                if (!$this->getSettings()->notifyModerator) {
-                    return;
-                }
-
                 // Ensure that new user account was created on front-end via registration form
                 if (!Craft::$app->request->getIsSiteRequest()) {
                     return;
@@ -153,8 +124,39 @@ class PendingUser extends Plugin
                     return;
                 }
 
+                // Send email to user that account was created and pending activation
+                $this->email->sendAccountCreationEmail($user);
+
+                // Ensure that Moderator Email Notification is enabled (plugin settings)
+                if (!$this->getSettings()->notifyModerator) {
+                    return;
+                }
+
                 // Send email to moderator stating that a new user account was created via front-end registration form
                 $this->email->sendAccountModerationEmail($user);
+            }
+        );
+
+        // Set new users created via front-end registration form to pending status
+        Event::on(
+            Users::class,
+            Users::EVENT_BEFORE_ACTIVATE_USER,
+            function (UserEvent $event) {
+                /** @var User $user */
+                $user = $event->user;
+
+                // Ensure that new user account was created on front-end via User Registration form
+                if (!Craft::$app->request->getIsSiteRequest()) {
+                    return;
+                }
+
+                // If user email in allowed domains, set account status to Active and send account activation email
+                // Else, set account status to Pending
+                if ($this->isAllowedDomains($user->email)) {
+                    $this->email->sendAccountActivationEmail($user);
+                } else {
+                    $event->isValid = false;
+                }
             }
         );
 
